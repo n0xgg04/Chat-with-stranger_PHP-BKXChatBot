@@ -1,4 +1,4 @@
-# Chat-with-stranger_PHP-BKXChatBot
+# Chat-with-stranger_PHP-By_N0xgg04
 Chatbot : Chat with stranger ( BKX ChatBot ) , by n0xgg04</br>
 Configure server info in <b>/bkx/server/list.json</b></br>
 
