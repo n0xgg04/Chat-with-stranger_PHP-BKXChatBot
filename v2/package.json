@@ -1,0 +1,33 @@
+{
+  "name": "chatbot-monorepo",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "dev:api": "turbo run start:dev --filter=@chatbot/api",
+    "dev:manager": "turbo run dev --filter=@chatbot/manager",
+    "dev:all": "turbo run dev --filter=@chatbot/api --filter=@chatbot/manager",
+    "start:api": "turbo run start --filter=@chatbot/api",
+    "start:prod:api": "turbo run start:prod --filter=@chatbot/api",
+    "lint": "turbo run lint",
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "check-types": "turbo run check-types",
+    "prisma:generate": "turbo run prisma:generate --filter=@chatbot/api",
+    "prisma:migrate": "turbo run prisma:migrate --filter=@chatbot/api",
+    "prisma:studio": "turbo run prisma:studio --filter=@chatbot/api",
+    "migrate:pages": "turbo run migrate:pages --filter=@chatbot/api"
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "turbo": "^2.6.0",
+    "typescript": "5.9.2"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "packageManager": "yarn@1.22.22",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}
