@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mariadb:10.3
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: nxzpw_bkx
+      MYSQL_USER: bkx
+      MYSQL_PASSWORD: bkx
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./bkx.sql.txt:/docker-entrypoint-initdb.d/bkx.sql
+    ports:
+      - "3306:3306"
+  php:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - ./bkx:/var/www/html
+    depends_on:
+      - mysql
+  nginx:
+    image: nginx:stable
+    restart: unless-stopped
+    volumes:
+      - ./bkx:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    ports:
+      - "8080:80"
+    depends_on:
+      - php
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    restart: unless-stopped
+    environment:
+      PMA_HOST: mysql
+      PMA_USER: bkx
+      PMA_PASSWORD: bkx
+    ports:
+      - "8081:80"
+    depends_on:
+      - mysql
+volumes:
+  mysql_data:

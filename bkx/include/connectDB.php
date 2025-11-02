@@ -1,9 +1,9 @@
 <?php
-include $_SERVER['DOCUMENT_ROOT'].'/bkx/dist/Database.php';
+include __DIR__.'/../dist/Database.php';
 
-define('_DBHOST','localhost');
-define('_DBUSER','admin');
-define('_DBPASS','Anh@@123');
-define('_DBNAME','bkx');
+define('_DBHOST','mysql');
+define('_DBUSER','bkx');
+define('_DBPASS','bkx');
+define('_DBNAME','nxzpw_bkx');
 
 

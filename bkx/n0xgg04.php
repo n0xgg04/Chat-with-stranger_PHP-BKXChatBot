@@ -20,7 +20,7 @@
     $builder = new \KaiserStudio5\MessageBuilder();
     $userId = $bot->getSenderId();
     $pageId= $bot->getPageId();
-    include $_SERVER['DOCUMENT_ROOT'].'/bkx/include/connectDB.php';
+    include __DIR__.'/include/connectDB.php';
    
 
     //CACHED AUTO REFRESH AT 00:00 BY CRONJOB
