@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { X, Check, Copy } from 'lucide-react';
 import { useCreatePage, useInstallPage } from '@/lib/hooks/use-pages';
+import { useAuth } from '@/lib/hooks/use-auth';
 
 interface ConnectPageModalProps {
   onClose: () => void;
@@ -16,17 +17,24 @@ export default function ConnectPageModal({ onClose }: ConnectPageModalProps) {
   const [webhookUrl, setWebhookUrl] = useState('');
   const [copied, setCopied] = useState(false);
 
+  const { user } = useAuth();
   const createPage = useCreatePage();
   const installPage = useInstallPage();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    if (!user?.id) {
+      console.error('User not authenticated');
+      return;
+    }
+
     try {
       await createPage.mutateAsync({
         pageId: pageId,
         name: pageName || 'My Page',
         accessToken: accessToken,
+        ownerId: user.id,
       });
 
       await installPage.mutateAsync(pageId);

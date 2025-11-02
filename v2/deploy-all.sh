@@ -1,7 +1,11 @@
 #!/bin/bash
 
+SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "$SCRIPT_DIR"
+
 echo "🚀 Deploying Chat Bot Monorepo to Vercel"
 echo "========================================"
+echo "Current directory: $(pwd)"
 echo ""
 
 MANAGER_DIR="apps/manager"
@@ -24,14 +28,14 @@ cd $MANAGER_DIR
 vercel $PROD_FLAG
 MANAGER_EXIT_CODE=$?
 
+cd "$SCRIPT_DIR"
+
 if [ $MANAGER_EXIT_CODE -eq 0 ]; then
     echo "✅ Manager deployed successfully!"
 else
     echo "❌ Manager deployment failed!"
     exit 1
 fi
-
-cd ../..
 
 echo ""
 echo "📦 Deploying API (NestJS)..."
@@ -40,14 +44,7 @@ cd $API_DIR
 vercel $PROD_FLAG
 API_EXIT_CODE=$?
 
-if [ $API_EXIT_CODE -eq 0 ]; then
-    echo "✅ API deployed successfully!"
-else
-    echo "❌ API deployment failed!"
-    exit 1
-fi
-
-cd ../..
+cd "$SCRIPT_DIR"
 
 echo ""
 echo "========================================"

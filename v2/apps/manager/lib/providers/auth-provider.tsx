@@ -4,7 +4,6 @@ import { createClient } from '@/utils/supabase/client';
 import { useAuthStore } from '@/lib/stores/auth-store';
 import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import type { User } from '@supabase/supabase-js';
 
 const publicRoutes = ['/login'];
 

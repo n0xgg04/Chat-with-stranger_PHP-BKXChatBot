@@ -1,14 +1,8 @@
 {
-  "buildCommand": "cd ../.. && yarn build --filter=@chatbot/manager",
+  "buildCommand": "yarn build",
   "devCommand": "yarn dev",
   "installCommand": "yarn install",
   "framework": "nextjs",
-  "outputDirectory": ".next",
-  "regions": ["sin1"],
-  "env": {
-    "NEXT_PUBLIC_API_URL": "@api_url",
-    "NEXT_PUBLIC_SUPABASE_URL": "@supabase_url",
-    "NEXT_PUBLIC_SUPABASE_ANON_KEY": "@supabase_anon_key"
-  }
+  "regions": ["sin1"]
 }
 

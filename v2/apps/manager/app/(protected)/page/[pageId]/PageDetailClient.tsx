@@ -11,33 +11,21 @@ import {
   Settings,
   RefreshCw,
 } from 'lucide-react';
-import { usePage } from '@/lib/hooks/use-pages';
+import { usePage, useStats } from '@/lib/hooks/use-pages';
 
 interface PageDetailClientProps {
   pageId: string;
 }
 
-interface Stats {
-  totalUsers: number;
-  activePairs: number;
-  waitingUsers: number;
-  totalChats: number;
-}
-
 export default function PageDetailClient({ pageId }: PageDetailClientProps) {
   const router = useRouter();
-  const { data: page, isLoading, refetch } = usePage(pageId);
-  const [stats] = useState<Stats>({
-    totalUsers: Math.floor(Math.random() * 1000),
-    activePairs: Math.floor(Math.random() * 50),
-    waitingUsers: Math.floor(Math.random() * 20),
-    totalChats: Math.floor(Math.random() * 5000),
-  });
+  const { data: page, isLoading, refetch: refetchPage } = usePage(pageId);
+  const { data: stats, isLoading: statsLoading, refetch: refetchStats } = useStats(pageId);
   const [refreshing, setRefreshing] = useState(false);
 
   const handleRefresh = async () => {
     setRefreshing(true);
-    await refetch();
+    await Promise.all([refetchPage(), refetchStats()]);
     setTimeout(() => setRefreshing(false), 500);
   };
 
@@ -114,7 +102,7 @@ export default function PageDetailClient({ pageId }: PageDetailClientProps) {
                   Tổng người dùng
                 </p>
                 <p className="text-3xl font-bold text-gray-900 mt-2">
-                  {stats.totalUsers.toLocaleString()}
+                  {statsLoading ? '...' : (stats?.totalUsers || 0).toLocaleString()}
                 </p>
               </div>
               <div className="p-3 bg-blue-100 rounded-lg">
@@ -128,7 +116,7 @@ export default function PageDetailClient({ pageId }: PageDetailClientProps) {
               <div>
                 <p className="text-sm font-medium text-gray-600">Đang chat</p>
                 <p className="text-3xl font-bold text-gray-900 mt-2">
-                  {stats.activePairs.toLocaleString()}
+                  {statsLoading ? '...' : (stats?.activePairs || 0).toLocaleString()}
                 </p>
               </div>
               <div className="p-3 bg-green-100 rounded-lg">
@@ -142,7 +130,7 @@ export default function PageDetailClient({ pageId }: PageDetailClientProps) {
               <div>
                 <p className="text-sm font-medium text-gray-600">Đang chờ</p>
                 <p className="text-3xl font-bold text-gray-900 mt-2">
-                  {stats.waitingUsers.toLocaleString()}
+                  {statsLoading ? '...' : (stats?.waitingUsers || 0).toLocaleString()}
                 </p>
               </div>
               <div className="p-3 bg-yellow-100 rounded-lg">
@@ -158,7 +146,7 @@ export default function PageDetailClient({ pageId }: PageDetailClientProps) {
                   Tổng cuộc chat
                 </p>
                 <p className="text-3xl font-bold text-gray-900 mt-2">
-                  {stats.totalChats.toLocaleString()}
+                  {statsLoading ? '...' : (stats?.totalChats || 0).toLocaleString()}
                 </p>
               </div>
               <div className="p-3 bg-purple-100 rounded-lg">

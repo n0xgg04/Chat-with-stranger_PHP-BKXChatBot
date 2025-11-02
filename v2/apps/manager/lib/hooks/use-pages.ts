@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { pageApi, type CreatePageDto } from '../api/client';
+import { pageApi, statsApi, type CreatePageDto } from '../api/client';
 import { usePageStore } from '../stores/page-store';
 
 export const usePages = () => {
@@ -70,6 +70,17 @@ export const usePageStatus = () => {
       const response = await pageApi.getStatus();
       return response.data;
     },
+  });
+};
+
+export const useStats = (pageId?: string) => {
+  return useQuery({
+    queryKey: ['stats', pageId],
+    queryFn: async () => {
+      const response = await statsApi.getStats(pageId);
+      return response.data;
+    },
+    refetchInterval: 30000,
   });
 };
 
